@@ -1,0 +1,1 @@
+/usr/bin/c++.exe  -g  -Wl,--enable-auto-import CMakeFiles/myAlgorithm.dir/main.cpp.o  -o myAlgorithm.exe -Wl,--out-implib,libmyAlgorithm.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
