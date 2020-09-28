@@ -1,14 +1,21 @@
 #include <iostream>
 using namespace std;
 
-int toutouzi(int x){
-    if(x<0)return 0;
-    else if(x==0)return 1;
-    return toutouzi(x-1)+toutouzi(x-2)+toutouzi(x-3)+toutouzi(x-4)+toutouzi(x-5)+toutouzi(x-6);
+int MergeFind(int a[],int low,int mid,int high){
+    int i=low,j=mid+1;
+    if(a[i]==a[j])return a[j];
+}
+int MergeZhongshu(int a[],int low,int high){
+    int mid;
+    if(low<high){
+        mid=(low+high)/2;
+        MergeZhongshu(a,low,mid);
+        MergeZhongshu(a,mid+1,high);
+        return MergeFind(a,low,mid,high);
+    }
 }
 int main() {
-    int n;
-    cin>>n;
-    cout<<toutouzi(n)<<endl;
+    int a[]={1,2,2,3,3,3,5};
+    cout<<MergeZhongshu(a,0,6)<<endl;
     return 0;
 }
