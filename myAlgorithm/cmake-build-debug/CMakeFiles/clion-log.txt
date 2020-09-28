@@ -1,4 +1,4 @@
-C:\cygwin64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/d/C1/G3/算法设计与课程/myAlgorithm
+C:\cygwin64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/d/C1/G3/term1/算法设计与课程/myAlgorithm
 -- The C compiler identification is GNU 7.3.0
 -- The CXX compiler identification is GNU 7.3.0
 -- Check for working C compiler: /usr/bin/cc
@@ -15,4 +15,4 @@ C:\cygwin64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefil
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /cygdrive/d/C1/G3/绠楁硶璁捐涓庤绋�/myAlgorithm/cmake-build-debug
+-- Build files have been written to: /cygdrive/d/C1/G3/term1/绠楁硶璁捐涓庤绋�/myAlgorithm/cmake-build-debug
