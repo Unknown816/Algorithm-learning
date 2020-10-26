@@ -9,4 +9,10 @@
 /cygdrive/d/C1/G3/term1/算法设计与课程/myAlgorithm/main.cpp
 iostream
 -
+cstdio
+-
+queue
+-
+vector
+-
 
