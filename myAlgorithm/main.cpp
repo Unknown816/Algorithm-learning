@@ -1,48 +1,41 @@
 #include <iostream>
-#include <cstring>
 #include <algorithm>
 using namespace std;
-const int MAXN=10005;
+const int N = 100;
+double D[N];//={1,2,5,3,6,1};//6段，6个点
 
-struct Stick{
-    int l;
-    int w;
-}s[MAXN];
-bool cmp(Stick x1,Stick x2){
-    if(x1.l==x2.l){
-        return x1.w<x2.w;
-    }else return x1.l<x2.l;
+void preprocess(){
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        cin>>D[i];
+    }
+}
+
+double Distance(int i,int j){
+    double d1=0,d2=0;
+    if(i>j){
+        int t=i;
+        i=j;
+        j=t;
+    }
+    for(int x=i;x<j;x++)d1+=D[x];
+    for(int x=0;x<i;x++)d2+=D[x];
+    for(int x=j;;x++){
+        if(D[x]==0)break;
+        d2+=D[x];
+    }
+    return min(d1,d2);
 }
 
 int main() {
-    int n,t;
+    preprocess();
+    int t;
     cin>>t;
-    int len[MAXN];
     while(t--){
-        memset(len,0,sizeof(len));
-        cin>>n;
-        for(int i=1;i<=n;i++){
-            cin>>s[i].l>>s[i].w;
-        }
-        sort(s+1,s+n+1,cmp);
-        //转化为求包含几个最长上升子序列
-        int cnt=0,ans=0;
-        while(cnt<n){
-            ans++;
-            int maxl=0;
-            for(int i=1;i<=n;i++){
-                if(s[i].w==0)continue;
-                if(len[maxl]<=s[i].w){
-                    len[++maxl]=s[i].w;
-                    cnt++;
-                    s[i].w=0;
-                }else{
-                    int flag=lower_bound(len,len+1+n,s[i].w)-len;
-                    len[flag]=s[i].w;
-                }
-            }
-        }
-        cout<<ans<<endl;
+        int i,j;
+        cin>>i>>j;
+        cout<<Distance(i,j)<<endl;
     }
     return 0;
 }
