@@ -1,53 +1,45 @@
 #include<iostream>
+#include<cstring>
+#include<algorithm>
+
+const int INF = 0x3f3f3f3f;
+#define mem(a, b) memset(a,b,sizeof(a))
 using namespace std;
+const int maxn = 101;
+int N, M, d[maxn][maxn];
 
-string str;
-int n;
-const int maxn = 100;
-int dp[maxn][maxn];            //dp[i][j]前i位字符串%n等于j的情况数
-int len;
-
-/*
-9999999999999X
-3
-*/
-int DP() {
-    //边界，第一位
-    if (str[0] == 'X') {
-        for (int j = 0; j <= n - 1; j++)        //枚举余数
-        {
-            for (int i = 0; i <= 9; i++) {
-                if (i % n == j)
-                    dp[1][j]++;
-            }
-        }
-    } else {
-        int x = str[0] - '0';
-        int j = x % n;
-        dp[1][j]++;
-    }
-    //后面的位数
-    for (int i = 2; i <= len; i++) {
-        for (int j = 0; j <= n - 1; j++) {
-            if (str[i - 1] == 'X') {
-                for (int k = 0; k <= 9; k++) {
-                    //这里要理解状态转移
-                    int newj = (10 * j + k) % n;
-                    dp[i][newj] += dp[i - 1][j];
-                }
-            } else {
-                int newj = (10 * j + str[i - 1] - '0') % n;
-                dp[i][newj] += dp[i - 1][j];
-            }
-        }
-    }
-    return dp[len][0];
+void floyd() {
+    for (int k = 1; k <= N; k++)//经过不大于k点的最短路径
+        for (int v = 1; v <= N; v++)
+            for (int u = 1; u <= N; u++)
+                d[v][u] = min(d[v][u], d[v][k] + d[k][u]);
 }
 
 int main() {
-    cin >> str;
-    len = str.length();
-    cin >> n;
-    cout << DP() << endl;
+    while (cin >> N >> M) {
+        mem(d, 0x3f);//初始化
+        for (int v = 1; v <= M; v++) {
+            int c, u, time;;
+            cin >> c >> u >> time;
+            d[c + 1][u + 1] = d[u + 1][c + 1] = time;
+        }
+        for (int i = 1; i <= N; i++) {
+            d[i][i] = 0;//到自身为0
+        }
+        floyd();
+        //求出以各点为源点的最大用时的最小值
+        int minTime = INF, start = 0;
+        for (int i = 1; i <= N; i++) {
+            int sum = 0;
+            for (int j = 1; j <= N; j++)
+                sum = max(sum, d[i][j]);//i传播信息给其他人的最长时间
+            if (minTime > sum) {
+                minTime = sum;
+                start = i;
+            }
+        }
+        if (start == 0) printf("disjoint\n");
+        else printf("%d\n", start-1);
+    }
     return 0;
 }
