@@ -1,45 +1,50 @@
 #include<iostream>
-#include<cstring>
 #include<algorithm>
+#include<cstring>
 
-const int INF = 0x3f3f3f3f;
-#define mem(a, b) memset(a,b,sizeof(a))
 using namespace std;
-const int maxn = 101;
-int N, M, d[maxn][maxn];
+const int inf = 0x3f3f3f3f;
+int n, m;
+int map[500][500];
+int vis[500];
 
-void floyd() {
-    for (int k = 1; k <= N; k++)//经过不大于k点的最短路径
-        for (int v = 1; v <= N; v++)
-            for (int u = 1; u <= N; u++)
-                d[v][u] = min(d[v][u], d[v][k] + d[k][u]);
+int dfs(int s, int t, int f) {
+    if (s == t)return f;
+    vis[s] = 1;
+    for (int i = 1; i <= n; i++) {
+        if (map[s][i] > 0 && !vis[i]) {
+            vis[i] = 1;
+            int d = dfs(i, t, min(f, map[s][i]));
+            if (d > 0) {
+                map[s][i] -= d;
+                map[i][s] += d;
+                return d;
+            }
+        }
+    }
+    return 0;  //很重要
+}
+
+int max_flow(int s, int t) {
+    int flow = 0;
+    while (1) {
+        memset(vis, 0, sizeof(vis));
+        int f = dfs(s, t, inf);//不断找从s到t的增广路
+        if (f == 0) {
+            return flow;   //找不到了就回去
+        }
+        flow += f;  //找到一个流量f的路
+    }
 }
 
 int main() {
-    while (cin >> N >> M) {
-        mem(d, 0x3f);//初始化
-        for (int v = 1; v <= M; v++) {
-            int c, u, time;;
-            cin >> c >> u >> time;
-            d[c + 1][u + 1] = d[u + 1][c + 1] = time;
+    while (cin >> n >> m) {
+        int u, v, w;
+        memset(map, 0, sizeof(map));
+        for (int i = 0; i < m; i++) {
+            cin >> u >> v >> w;
+            map[u+1][v+1] += w;
         }
-        for (int i = 1; i <= N; i++) {
-            d[i][i] = 0;//到自身为0
-        }
-        floyd();
-        //求出以各点为源点的最大用时的最小值
-        int minTime = INF, start = 0;
-        for (int i = 1; i <= N; i++) {
-            int sum = 0;
-            for (int j = 1; j <= N; j++)
-                sum = max(sum, d[i][j]);//i传播信息给其他人的最长时间
-            if (minTime > sum) {
-                minTime = sum;
-                start = i;
-            }
-        }
-        if (start == 0) printf("disjoint\n");
-        else printf("%d\n", start-1);
+        cout << max_flow(1, n) << endl;
     }
-    return 0;
 }
